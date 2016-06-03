@@ -67,7 +67,6 @@ public class LoginActivity extends BaseActivity {
 		if (DemoHXSDKHelper.getInstance().isLogined()) {
 			autoLogin = true;
 			startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
 			return;
 		}
 		setContentView(R.layout.activity_login);
@@ -159,7 +158,7 @@ public class LoginActivity extends BaseActivity {
 						public void run() {
 							pd.dismiss();
 							DemoHXSDKHelper.getInstance().logout(true,null);
-							Toast.makeText(getApplicationContext(), R.string.login_failure_failed, 1).show();
+							Toast.makeText(getApplicationContext(), R.string.login_failure_failed, Toast.LENGTH_LONG).show();
 						}
 					});
 					return;

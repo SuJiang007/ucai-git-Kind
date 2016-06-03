@@ -41,7 +41,7 @@ public class RegisterActivity extends BaseActivity {
 		setContentView(R.layout.activity_register);
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
-		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+//		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class RegisterActivity extends BaseActivity {
 									pd.dismiss();
 								// 保存用户名
 								DemoApplication.getInstance().setUserName(username);
-								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), 0).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
 								finish();
 							}
 						});

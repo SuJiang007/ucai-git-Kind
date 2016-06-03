@@ -44,6 +44,8 @@ import com.easemob.EMEventListener;
 import com.easemob.EMGroupChangeListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.kind.FirstActivity;
 import cn.ucai.kind.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactListener;
@@ -109,13 +111,13 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			// 三个fragment里加的判断同理
 		    DemoHXSDKHelper.getInstance().logout(true,null);
 			finish();
-			startActivity(new Intent(this, LoginActivity.class));
+			startActivity(new Intent(this, FirstActivity.class));
 			return;
 		} else if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false)) {
 			// 防止被T后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
 			// 三个fragment里加的判断同理
 			finish();
-			startActivity(new Intent(this, LoginActivity.class));
+			startActivity(new Intent(this, FirstActivity.class));
 			return;
 		}
 		setContentView(cn.ucai.kind.R.layout.activity_main);

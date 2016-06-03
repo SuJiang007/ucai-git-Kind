@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.kind.DemoHXSDKHelper;
+import cn.ucai.kind.FirstActivity;
 import cn.ucai.kind.R;
 
 /**
@@ -30,9 +31,9 @@ public class SplashActivity extends BaseActivity {
 		super.onCreate(arg0);
 
 		rootLayout = (RelativeLayout) findViewById(R.id.splash_root);
-		versionText = (TextView) findViewById(R.id.tv_version);
+//		versionText = (TextView) findViewById(R.id.tv_version);
 
-		versionText.setText(getVersion());
+//		versionText.setText(getVersion());
 		AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
 		animation.setDuration(1500);
 		rootLayout.startAnimation(animation);
@@ -68,7 +69,7 @@ public class SplashActivity extends BaseActivity {
 						Thread.sleep(sleepTime);
 					} catch (InterruptedException e) {
 					}
-					startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+					startActivity(new Intent(SplashActivity.this, FirstActivity.class));
 					finish();
 				}
 			}
@@ -79,16 +80,16 @@ public class SplashActivity extends BaseActivity {
 	/**
 	 * 获取当前应用程序的版本号
 	 */
-	private String getVersion() {
-		String st = getResources().getString(R.string.Version_number_is_wrong);
-		PackageManager pm = getPackageManager();
-		try {
-			PackageInfo packinfo = pm.getPackageInfo(getPackageName(), 0);
-			String version = packinfo.versionName;
-			return version;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			return st;
-		}
-	}
+//	private String getVersion() {
+//		String st = getResources().getString(R.string.Version_number_is_wrong);
+//		PackageManager pm = getPackageManager();
+//		try {
+//			PackageInfo packinfo = pm.getPackageInfo(getPackageName(), 0);
+//			String version = packinfo.versionName;
+//			return version;
+//		} catch (NameNotFoundException e) {
+//			e.printStackTrace();
+//			return st;
+//		}
+//	}
 }
