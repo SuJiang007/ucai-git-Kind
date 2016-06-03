@@ -29,6 +29,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	private EditText query;
 	private ImageButton clearSearch;
 	public RelativeLayout errorItem;
+	private ImageView miv_MyFriend,miv_FriendMessage;
 
 	public TextView errorText;
 	private boolean hidden;
@@ -71,50 +73,63 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 		if(savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
             return;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-		errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
-		errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);		
-		
-		conversationList.addAll(loadConversationsWithRecentChat());
-		listView = (ListView) getView().findViewById(R.id.list);
-		adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
-		// 设置adapter
-		listView.setAdapter(adapter);
-				
-		
-		final String st2 = getResources().getString(R.string.Cant_chat_with_yourself);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		// 搜索框
+//		query = (EditText) getView().findViewById(R.id.query);
+//		String strSearch = getResources().getString(R.string.search);
+//		query.setHint(strSearch);
+		// 搜索框中清除button
+//		clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
+//		query.addTextChangedListener(new TextWatcher() {
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				adapter.getFilter().filter(s);
+//				if (s.length() > 0) {
+//					clearSearch.setVisibility(View.VISIBLE);
+//				} else {
+//					clearSearch.setVisibility(View.INVISIBLE);
+//				}
+//			}
+//
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//			}
+//
+//			public void afterTextChanged(Editable s) {
+//			}
+//		});
+//		clearSearch.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				query.getText().clear();
+//				hideSoftKeyboard();
+//			}
+//		});
+		initView();
+		setListener();
+	}
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				EMConversation conversation = adapter.getItem(position);
-				String username = conversation.getUserName();
-				if (username.equals(DemoApplication.getInstance().getUserName()))
-					Toast.makeText(getActivity(), st2, 0).show();
-				else {
-				    // 进入聊天页面
-				    Intent intent = new Intent(getActivity(), ChatActivity.class);
-				    if(conversation.isGroup()){
-				        if(conversation.getType() == EMConversationType.ChatRoom){
-				         // it is group chat
-	                        intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-	                        intent.putExtra("groupId", username);
-				        }else{
-				         // it is group chat
-	                        intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-	                        intent.putExtra("groupId", username);
-				        }
-				        
-				    }else{
-				        // it is single chat
-                        intent.putExtra("userId", username);
-				    }
-				    startActivity(intent);
-				}
-			}
-		});
+	private void setListener() {
+		setOnlistViewListener();
 		// 注册上下文菜单
 		registerForContextMenu(listView);
+		setOnTouchListener();
+		setOnMyFriendListener();
+	}
 
+	private void setOnMyFriendListener() {
+		miv_MyFriend.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		miv_FriendMessage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+	}
+
+	private void setOnTouchListener() {
 		listView.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -125,36 +140,53 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 			}
 
 		});
-		// 搜索框
-		query = (EditText) getView().findViewById(R.id.query);
-		String strSearch = getResources().getString(R.string.search);
-		query.setHint(strSearch);
-		// 搜索框中清除button
-		clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
-		query.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				adapter.getFilter().filter(s);
-				if (s.length() > 0) {
-					clearSearch.setVisibility(View.VISIBLE);
-				} else {
-					clearSearch.setVisibility(View.INVISIBLE);
+	}
+
+	private void setOnlistViewListener() {
+		final String st2 = getResources().getString(R.string.Cant_chat_with_yourself);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				EMConversation conversation = adapter.getItem(position);
+				String username = conversation.getUserName();
+				if (username.equals(DemoApplication.getInstance().getUserName()))
+					Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
+				else {
+					// 进入聊天页面
+					Intent intent = new Intent(getActivity(), ChatActivity.class);
+					if(conversation.isGroup()){
+						if(conversation.getType() == EMConversationType.ChatRoom){
+							// it is group chat
+							intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
+							intent.putExtra("groupId", username);
+						}else{
+							// it is group chat
+							intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+							intent.putExtra("groupId", username);
+						}
+
+					}else{
+						// it is single chat
+						intent.putExtra("userId", username);
+					}
+					startActivity(intent);
 				}
 			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			public void afterTextChanged(Editable s) {
-			}
 		});
-		clearSearch.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				query.getText().clear();
-				hideSoftKeyboard();
-			}
-		});
-		
+	}
+
+	private void initView() {
+		miv_MyFriend = (ImageView) getView().findViewById(R.id.id_My_friend);
+		miv_FriendMessage = (ImageView) getView().findViewById(R.id.friendMessage);
+//		errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
+//		errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);
+
+		conversationList.addAll(loadConversationsWithRecentChat());
+		listView = (ListView) getView().findViewById(R.id.list);
+		adapter = new ChatAllHistoryAdapter(getActivity(), 1, conversationList);
+		// 设置adapter
+		listView.setAdapter(adapter);
 	}
 
 	void hideSoftKeyboard() {
@@ -210,7 +242,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	/**
 	 * 获取所有会话
 	 * 
-	 * @param context
+	 * @param
 	 * @return
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         +	 */
 	private List<EMConversation> loadConversationsWithRecentChat() {
@@ -249,7 +281,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	/**
 	 * 根据最后一条消息的时间排序
 	 * 
-	 * @param usernames
+	 * @param
 	 */
 	private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
 		Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {

@@ -63,12 +63,6 @@ public class LoginActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// 如果用户名密码都有，直接进入主页面
-		if (DemoHXSDKHelper.getInstance().isLogined()) {
-			autoLogin = true;
-			startActivity(new Intent(LoginActivity.this, MainActivity.class));
-			return;
-		}
 		setContentView(R.layout.activity_login);
 
 		usernameEditText = (EditText) findViewById(R.id.username);

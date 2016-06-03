@@ -24,9 +24,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -46,6 +50,7 @@ import com.easemob.EMNotifierEvent;
 import com.easemob.EMValueCallBack;
 
 import cn.ucai.kind.FirstActivity;
+import cn.ucai.kind.R;
 import cn.ucai.kind.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactListener;
@@ -120,7 +125,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			startActivity(new Intent(this, FirstActivity.class));
 			return;
 		}
-		setContentView(cn.ucai.kind.R.layout.activity_main);
+		setContentView(R.layout.activity_main);
 		initView();
 
 		// MobclickAgent.setDebugMode( true );
@@ -143,8 +148,8 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		settingFragment = new SettingsFragment();
 		fragments = new Fragment[] { chatHistoryFragment, contactListFragment, settingFragment };
 		// 添加显示第一个fragment
-		getSupportFragmentManager().beginTransaction().add(cn.ucai.kind.R.id.fragment_container, chatHistoryFragment)
-				.add(cn.ucai.kind.R.id.fragment_container, contactListFragment).hide(contactListFragment).show(chatHistoryFragment)
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, chatHistoryFragment)
+				.add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(chatHistoryFragment)
 				.commit();
 		
 		init();
@@ -215,13 +220,13 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 // 添加user"申请与通知"
                 User newFriends = new User();
                 newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
-                String strChat = context.getString(cn.ucai.kind.R.string.Application_and_notify);
+                String strChat = context.getString(R.string.Application_and_notify);
                 newFriends.setNick(strChat);
         
                 userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
                 // 添加"群聊"
                 User groupUser = new User();
-                String strGroup = context.getString(cn.ucai.kind.R.string.group_chat);
+                String strGroup = context.getString(R.string.group_chat);
                 groupUser.setUsername(Constant.GROUP_USERNAME);
                 groupUser.setNick(strGroup);
                 groupUser.setHeader("");
@@ -229,7 +234,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 
                  // 添加"聊天室"
                 User chatRoomItem = new User();
-                String strChatRoom = context.getString(cn.ucai.kind.R.string.chat_room);
+                String strChatRoom = context.getString(R.string.chat_room);
                 chatRoomItem.setUsername(Constant.CHAT_ROOM);
                 chatRoomItem.setNick(strChatRoom);
                 chatRoomItem.setHeader("");
@@ -237,7 +242,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 
                 // 添加"Robot"
         		User robotUser = new User();
-        		String strRobot = context.getString(cn.ucai.kind.R.string.robot_chat);
+        		String strRobot = context.getString(R.string.robot_chat);
         		robotUser.setUsername(Constant.CHAT_ROBOT);
         		robotUser.setNick(strRobot);
         		robotUser.setHeader("");
@@ -326,40 +331,52 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	 * 初始化组件
 	 */
 	private void initView() {
-		unreadLabel = (TextView) findViewById(cn.ucai.kind.R.id.unread_msg_number);
-		unreadAddressLable = (TextView) findViewById(cn.ucai.kind.R.id.unread_address_number);
+		unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
+//		unreadAddressLable = (TextView) findViewById(R.id.unread_address_number);
 		mTabs = new Button[3];
-		mTabs[0] = (Button) findViewById(cn.ucai.kind.R.id.btn_conversation);
-		mTabs[1] = (Button) findViewById(cn.ucai.kind.R.id.btn_address_list);
-		mTabs[2] = (Button) findViewById(cn.ucai.kind.R.id.btn_setting);
+		mTabs[0] = (Button) findViewById(R.id.btn_conversation);
+		mTabs[1] = (Button) findViewById(R.id.btn_address_list);
+		mTabs[2] = (Button) findViewById(R.id.btn_setting);
 		// 把第一个tab设为选中状态
 		mTabs[0].setSelected(true);
 
 		registerForContextMenu(mTabs[1]);
 	}
-
+	public void setDrawable(Button tv, int Color, int drawableId) {
+		tv.setTextColor(Color);
+		Drawable drawable = ContextCompat.getDrawable(this, drawableId);
+		drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+		tv.setCompoundDrawables(null,drawable,null,null);
+	}
 	/**
 	 * button点击事件
 	 * 
 	 * @param view
 	 */
 	public void onTabClicked(View view) {
+		setDrawable(mTabs[0], Color.GRAY,R.drawable.ic_tab_chat_normal);
+		setDrawable(mTabs[1], Color.GRAY,R.drawable.ic_tab_chatroom_normal);
+		setDrawable(mTabs[2], Color.GRAY,R.drawable.ic_tab_same_normal);
+
 		switch (view.getId()) {
-		case cn.ucai.kind.R.id.btn_conversation:
+		case R.id.btn_conversation:
 			index = 0;
+			setDrawable(mTabs[0], Color.GRAY,R.drawable.ic_tab_chat_active);
 			break;
-		case cn.ucai.kind.R.id.btn_address_list:
+		case R.id.btn_address_list:
 			index = 1;
+			setDrawable(mTabs[1], Color.GRAY,R.drawable.ic_tab_chatroom_active);
 			break;
-		case cn.ucai.kind.R.id.btn_setting:
+		case R.id.btn_setting:
 			index = 2;
+			setDrawable(mTabs[2], Color.GRAY,R.drawable.ic_tab_same_active);
 			break;
 		}
 		if (currentTabIndex != index) {
 			FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
 			trx.hide(fragments[currentTabIndex]);
 			if (!fragments[index].isAdded()) {
-				trx.add(cn.ucai.kind.R.id.fragment_container, fragments[index]);
+				trx.add(R.id.fragment_container, fragments[index]);
 			}
 			trx.show(fragments[index]).commit();
 		}
@@ -466,9 +483,9 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 				int count = getUnreadAddressCountTotal();
 				if (count > 0) {
 //					unreadAddressLable.setText(String.valueOf(count));
-					unreadAddressLable.setVisibility(View.VISIBLE);
+//					unreadAddressLable.setVisibility(View.VISIBLE);
 				} else {
-					unreadAddressLable.setVisibility(View.INVISIBLE);
+//					unreadAddressLable.setVisibility(View.INVISIBLE);
 				}
 			}
 		});
@@ -545,10 +562,10 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// 如果正在与此用户的聊天页面
-					String st10 = getResources().getString(cn.ucai.kind.R.string.have_you_removed);
+					String st10 = getResources().getString(R.string.have_you_removed);
 					if (ChatActivity.activityInstance != null
 							&& usernameList.contains(ChatActivity.activityInstance.getToChatUsername())) {
-						Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, 1)
+						Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
 								.show();
 						ChatActivity.activityInstance.finish();
 					}
@@ -644,20 +661,20 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                 }
             }
             
-			runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					chatHistoryFragment.errorItem.setVisibility(View.GONE);
-				}
-
-			});
+//			runOnUiThread(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					chatHistoryFragment.errorItem.setVisibility(View.GONE);
+//				}
+//
+//			});
 		}
 
 		@Override
 		public void onDisconnected(final int error) {
-			final String st1 = getResources().getString(cn.ucai.kind.R.string.can_not_connect_chat_server_connection);
-			final String st2 = getResources().getString(cn.ucai.kind.R.string.the_current_network);
+			final String st1 = getResources().getString(R.string.can_not_connect_chat_server_connection);
+			final String st2 = getResources().getString(R.string.the_current_network);
 			runOnUiThread(new Runnable() {
 
 				@Override
@@ -668,14 +685,14 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 					} else if (error == EMError.CONNECTION_CONFLICT) {
 						// 显示帐号在其他设备登陆dialog
 						showConflictDialog();
-					} else {
+					} /*else {
 						chatHistoryFragment.errorItem.setVisibility(View.VISIBLE);
 						if (NetUtils.hasNetwork(MainActivity.this))
 							chatHistoryFragment.errorText.setText(st1);
 						else
 							chatHistoryFragment.errorText.setText(st2);
 
-					}
+					}*/
 				}
 
 			});
@@ -701,7 +718,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 				return;
 
 			// 被邀请
-			String st3 = getResources().getString(cn.ucai.kind.R.string.Invite_you_to_join_a_group_chat);
+			String st3 = getResources().getString(R.string.Invite_you_to_join_a_group_chat);
 			EMMessage msg = EMMessage.createReceiveMessage(Type.TXT);
 			msg.setChatType(ChatType.GroupChat);
 			msg.setFrom(inviter);
@@ -795,7 +812,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		@Override
 		public void onApplicationAccept(String groupId, String groupName, String accepter) {
 
-			String st4 = getResources().getString(cn.ucai.kind.R.string.Agreed_to_your_group_chat_application);
+			String st4 = getResources().getString(R.string.Agreed_to_your_group_chat_application);
 			// 加群申请被同意
 			EMMessage msg = EMMessage.createReceiveMessage(Type.TXT);
 			msg.setChatType(ChatType.GroupChat);
@@ -944,15 +961,15 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	private void showConflictDialog() {
 		isConflictDialogShow = true;
 		DemoHXSDKHelper.getInstance().logout(false,null);
-		String st = getResources().getString(cn.ucai.kind.R.string.Logoff_notification);
+		String st = getResources().getString(R.string.Logoff_notification);
 		if (!MainActivity.this.isFinishing()) {
 			// clear up global variables
 			try {
 				if (conflictBuilder == null)
 					conflictBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
 				conflictBuilder.setTitle(st);
-				conflictBuilder.setMessage(cn.ucai.kind.R.string.connect_conflict);
-				conflictBuilder.setPositiveButton(cn.ucai.kind.R.string.ok, new DialogInterface.OnClickListener() {
+				conflictBuilder.setMessage(R.string.connect_conflict);
+				conflictBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -979,15 +996,15 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	private void showAccountRemovedDialog() {
 		isAccountRemovedDialogShow = true;
 		DemoHXSDKHelper.getInstance().logout(true,null);
-		String st5 = getResources().getString(cn.ucai.kind.R.string.Remove_the_notification);
+		String st5 = getResources().getString(R.string.Remove_the_notification);
 		if (!MainActivity.this.isFinishing()) {
 			// clear up global variables
 			try {
 				if (accountRemovedBuilder == null)
 					accountRemovedBuilder = new android.app.AlertDialog.Builder(MainActivity.this);
 				accountRemovedBuilder.setTitle(st5);
-				accountRemovedBuilder.setMessage(cn.ucai.kind.R.string.em_user_remove);
-				accountRemovedBuilder.setPositiveButton(cn.ucai.kind.R.string.ok, new DialogInterface.OnClickListener() {
+				accountRemovedBuilder.setMessage(R.string.em_user_remove);
+				accountRemovedBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
