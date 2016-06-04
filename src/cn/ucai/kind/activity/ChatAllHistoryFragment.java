@@ -61,10 +61,12 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	public TextView errorText;
 	private boolean hidden;
 	private List<EMConversation> conversationList = new ArrayList<EMConversation>();
+	View Grou;
 		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_conversation_history, container, false);
+		Grou = inflater.inflate(R.layout.fragment_conversation_history, container, false);
+		return Grou;
 	}
 
 	@Override
@@ -118,7 +120,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 		miv_MyFriend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				startActivity(new Intent(Grou.getContext(),ContactActivity.class));
 			}
 		});
 		miv_FriendMessage.setOnClickListener(new OnClickListener() {
