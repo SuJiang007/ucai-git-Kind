@@ -52,20 +52,20 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 	private MyFilter myFilter;
     private boolean notiyfyByFilter;
 
-	public ContactAdapter(Context context, int resource, List<User> objects) {
-		super(context, resource, objects);
+	public ContactAdapter(Context context, int resource, List<User> list1) {
+		super(context, resource, list1);
 		this.res = resource;
-		this.userList = objects;
+		this.userList = list1;
 		copyUserList = new ArrayList<User>();
-		copyUserList.addAll(objects);
+		copyUserList.addAll(list1);
 		layoutInflater = LayoutInflater.from(context);
 	}
 	
 	private static class ViewHolder {
 	    ImageView avatar;
-	    TextView unreadMsgView;
+//	    TextView unreadMsgView;
 	    TextView nameTextview;
-	    TextView tvHeader;
+//	    TextView tvHeader;
     }
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -74,9 +74,9 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
  		    holder = new ViewHolder();
 			convertView = layoutInflater.inflate(res, null);
 			holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
-			holder.unreadMsgView = (TextView) convertView.findViewById(R.id.unread_msg_number);
+//			holder.unreadMsgView = (TextView) convertView.findViewById(R.id.unread_msg_number);
 			holder.nameTextview = (TextView) convertView.findViewById(R.id.name);
-			holder.tvHeader = (TextView) convertView.findViewById(R.id.header);
+//			holder.tvHeader = (TextView) convertView.findViewById(R.id.header);
 			convertView.setTag(holder);
 		}else{
 		    holder = (ViewHolder) convertView.getTag();
@@ -87,26 +87,26 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 			Log.d("ContactAdapter", position + "");
 		//设置nick，demo里不涉及到完整user，用username代替nick显示
 		String username = user.getUsername();
-		String header = user.getHeader();
-		if (position == 0 || header != null && !header.equals(getItem(position - 1).getHeader())) {
-			if (TextUtils.isEmpty(header)) {
-			    holder.tvHeader.setVisibility(View.GONE);
-			} else {
-			    holder.tvHeader.setVisibility(View.VISIBLE);
-			    holder.tvHeader.setText(header);
-			}
-		} else {
-		    holder.tvHeader.setVisibility(View.GONE);
-		}
-		//显示申请与通知item
+//		String header = user.getHeader();
+//		if (position == 0 || header != null && !header.equals(getItem(position - 1).getHeader())) {
+//			if (TextUtils.isEmpty(header)) {
+//			    holder.tvHeader.setVisibility(View.GONE);
+//			} else {
+//			    holder.tvHeader.setVisibility(View.VISIBLE);
+//			    holder.tvHeader.setText(header);
+//			}
+//		} else {
+//		    holder.tvHeader.setVisibility(View.GONE);
+//		}
+		/*//显示申请与通知item
 		if(username.equals(Constant.NEW_FRIENDS_USERNAME)){
 		    holder.nameTextview.setText(user.getNick());
 		    holder.avatar.setImageResource(R.drawable.new_friends_icon);
 			if(user.getUnreadMsgCount() > 0){
-			    holder.unreadMsgView.setVisibility(View.VISIBLE);
+//			    holder.unreadMsgView.setVisibility(View.VISIBLE);
 //			    holder.unreadMsgView.setText(user.getUnreadMsgCount()+"");
 			}else{
-			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
+//			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
 			}
 		}else if(username.equals(Constant.GROUP_USERNAME)){
 			//群聊item
@@ -120,13 +120,13 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 			//Robot item
 			holder.nameTextview.setText(user.getNick());
 			holder.avatar.setImageResource(R.drawable.groups_icon);
-		}else{
+		}else{*/
 		    holder.nameTextview.setText(user.getNick());
 		    //设置用户头像
 			UserUtils.setUserAvatar(getContext(), username, holder.avatar);
-			if(holder.unreadMsgView != null)
-			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
-		}
+//			if(holder.unreadMsgView != null)
+//			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
+//		}
 		
 		return convertView;
 	}

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -56,7 +57,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	private EditText query;
 	private ImageButton clearSearch;
 	public RelativeLayout errorItem;
-	private ImageView miv_MyFriend,miv_FriendMessage;
 
 	public TextView errorText;
 	private boolean hidden;
@@ -113,23 +113,10 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 		// 注册上下文菜单
 		registerForContextMenu(listView);
 		setOnTouchListener();
-		setOnMyFriendListener();
+		Grou.findViewById(R.id.id_My_friend).setOnClickListener(this);
+		Grou.findViewById(R.id.friendMessage).setOnClickListener(this);
 	}
 
-	private void setOnMyFriendListener() {
-		miv_MyFriend.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(Grou.getContext(),ContactActivity.class));
-			}
-		});
-		miv_FriendMessage.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
-	}
 
 	private void setOnTouchListener() {
 		listView.setOnTouchListener(new OnTouchListener() {
@@ -179,8 +166,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	}
 
 	private void initView() {
-		miv_MyFriend = (ImageView) getView().findViewById(R.id.id_My_friend);
-		miv_FriendMessage = (ImageView) getView().findViewById(R.id.friendMessage);
 //		errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
 //		errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);
 
@@ -329,7 +314,18 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
         }
     }
 
-    @Override
-    public void onClick(View v) {        
+
+	@Override
+    public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.id_My_friend:
+				Log.i("main", "tiaozhuan");
+				startActivity(new Intent(Grou.getContext(),ContactActivity.class));
+				break;
+			case R.id.friendMessage:
+				startActivity(new Intent(Grou.getContext(),FriendsdynamicsActivity.class));
+				break;
+		}
     }
+
 }

@@ -100,6 +100,14 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 	private MyConnectionListener connectionListener = null;
 	private MyGroupChangeListener groupChangeListener = null;
 
+	public boolean isConflict() {
+		return isConflict;
+	}
+
+	public void setConflict(boolean conflict) {
+		isConflict = conflict;
+	}
+
 	/**
 	 * 检查当前用户是否被删除
 	 */
