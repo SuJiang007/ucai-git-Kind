@@ -27,8 +27,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -49,6 +47,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import cn.ucai.kind.R;
 import cn.ucai.kind.applib.controller.HXSDKHelper;
 import cn.ucai.kind.applib.controller.HXSDKHelper.HXSyncListener;
 
@@ -56,7 +55,6 @@ import com.easemob.chat.EMContactManager;
 
 import cn.ucai.kind.Constant;
 import cn.ucai.kind.DemoHXSDKHelper;
-import cn.ucai.kind.R;
 import cn.ucai.kind.adapter.ContactAdapter;
 import cn.ucai.kind.db.InviteMessgeDao;
 import cn.ucai.kind.db.UserDao;

@@ -31,7 +31,10 @@ import android.widget.Toast;
 import com.easemob.EMCallBack;
 
 import cn.ucai.kind.FirstActivity;
+import cn.ucai.kind.MessageNotificationActivity;
 import cn.ucai.kind.PublishdynamicActivity;
+import cn.ucai.kind.SettingActivity;
+import cn.ucai.kind.SystemActivity;
 import cn.ucai.kind.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMChatManager;
@@ -106,7 +109,6 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_logout: //退出登陆
-                logout();
                 break;
             case R.id.iv_option:
                 if (!isChange) {
@@ -120,9 +122,17 @@ public class SettingsFragment extends Fragment implements OnClickListener {
             case R.id.iv_sendmessage:
                 startActivity(new Intent(layout.getContext(), PublishdynamicActivity.class));
                 break;
+            case R.id.mydata:
+                startActivity(new Intent(layout.getContext(), SettingActivity.class));
+                break;
+            case R.id.messagenotice:
+                startActivity(new Intent(layout.getContext(), MessageNotificationActivity.class));
+                break;
+            case R.id.mysetting:
+                startActivity(new Intent(layout.getContext(), SystemActivity.class));
+                break;
         }
     }
-
     void logout() {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         String st = getResources().getString(R.string.Are_logged_out);
