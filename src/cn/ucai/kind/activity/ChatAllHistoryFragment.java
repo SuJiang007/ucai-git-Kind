@@ -75,35 +75,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 		if(savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
             return;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-		// 搜索框
-//		query = (EditText) getView().findViewById(R.id.query);
-//		String strSearch = getResources().getString(R.string.search);
-//		query.setHint(strSearch);
-		// 搜索框中清除button
-//		clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
-//		query.addTextChangedListener(new TextWatcher() {
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				adapter.getFilter().filter(s);
-//				if (s.length() > 0) {
-//					clearSearch.setVisibility(View.VISIBLE);
-//				} else {
-//					clearSearch.setVisibility(View.INVISIBLE);
-//				}
-//			}
-//
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//			}
-//
-//			public void afterTextChanged(Editable s) {
-//			}
-//		});
-//		clearSearch.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				query.getText().clear();
-//				hideSoftKeyboard();
-//			}
-//		});
 		initView();
 		setListener();
 	}
@@ -166,8 +137,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	}
 
 	private void initView() {
-//		errorItem = (RelativeLayout) getView().findViewById(R.id.rl_error_item);
-//		errorText = (TextView) errorItem.findViewById(R.id.tv_connect_errormsg);
 
 		conversationList.addAll(loadConversationsWithRecentChat());
 		listView = (ListView) getView().findViewById(R.id.list);

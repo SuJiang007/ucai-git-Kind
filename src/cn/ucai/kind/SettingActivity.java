@@ -111,7 +111,7 @@ public class SettingActivity extends Activity {
     }
 
     private void initView() {
-        mtv_qqq = (TextView) findViewById(R.id.qqq);
+        mtv_qqq = (TextView) findViewById(R.id.qqqwww);
         mtv_cancel = (TextView) findViewById(R.id.tv_cancel);
         mtv_UserName = (TextView) findViewById(R.id.UserName);
         mtv_complete = (TextView) findViewById(R.id.tv_complete);

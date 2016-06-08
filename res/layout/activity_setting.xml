@@ -95,7 +95,7 @@
                         android:layout_weight="1"
                         android:text="姓名"
                         android:layout_marginLeft="5dp"
-                        android:id="@+id/qqq"
+                        android:id="@+id/qqqwww"
                         android:textColor="#000"
                         android:textSize="20sp" />
 
@@ -568,7 +568,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginTop="250dp"
-                android:src="@drawable/touxiang" />
+                android:src="@drawable/yuanxing" />
         </RelativeLayout>
     </ScrollView>
     <LinearLayout android:layout_width="match_parent"

@@ -44,6 +44,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -83,6 +84,7 @@ public class ContactlistFragment extends Fragment {
     Handler handler = new Handler();
     private User toBeProcessUser;
     private String toBeProcessUsername;
+    ImageView miv_search;
 
     class HXContactSyncListener implements HXSDKHelper.HXSyncListener {
         @Override
@@ -153,6 +155,9 @@ public class ContactlistFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_contact_list, container, false);
     }
 
+    boolean isChange = true;
+    LinearLayout mll_qunliaohuati;
+    ImageView miv_all_distance,miv_all_age;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -168,6 +173,12 @@ public class ContactlistFragment extends Fragment {
         // 获取设置contactlist
         getContactList();
 
+        //流行标签
+        miv_search = (ImageView) getView().findViewById(R.id.ivsearch);
+        mll_qunliaohuati = (LinearLayout) getView().findViewById(R.id.ll_qunliaohuati);
+        miv_all_age = (ImageView) getView().findViewById(R.id.iv_all_age);
+        miv_all_distance = (ImageView) getView().findViewById(R.id.iv_all_distance);
+        initData();
 
         // 设置adapter
         adapter = new ContactAdapter(getActivity(), R.layout.row_contact, contactList);
@@ -238,6 +249,53 @@ public class ContactlistFragment extends Fragment {
         } else {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    private void initData() {
+        miv_search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isChange) {
+                    isChange = false;
+                    mll_qunliaohuati.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                    dianji();
+                } else {
+                    isChange = true;
+                    mll_qunliaohuati.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    boolean isChangedistance = true;
+    boolean isChangeage = true;
+    private void dianji() {
+        miv_all_distance.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isChangedistance) {
+                    miv_all_distance.setImageResource(R.drawable.distance);
+                    isChangedistance = false;
+                } else {
+                    miv_all_distance.setImageResource(R.drawable.all);
+                    isChangedistance = true;
+                }
+            }
+        });
+        miv_all_age.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isChangeage) {
+                    miv_all_age.setImageResource(R.drawable.same_age);
+                    isChangeage = false;
+                } else {
+                    miv_all_age.setImageResource(R.drawable.age_all);
+                    isChangeage = true;
+                }
+            }
+        });
     }
 
     @Override
@@ -399,16 +457,6 @@ public class ContactlistFragment extends Fragment {
         super.onDestroy();
     }
 
-    public void showProgressBar(boolean show) {
-        if (progressBar != null) {
-            if (show) {
-                progressBar.setVisibility(View.VISIBLE);
-            } else {
-                progressBar.setVisibility(View.GONE);
-            }
-        }
-    }
-
     /**
      * 获取联系人列表，并过滤掉黑名单和排序
      */
@@ -434,29 +482,8 @@ public class ContactlistFragment extends Fragment {
                 return lhs.getUsername().compareTo(rhs.getUsername());
             }
         });
-
-//        if (users.get(Constant.CHAT_ROBOT) != null) {
-//            contactList.add(0, users.get(Constant.CHAT_ROBOT));
-//        }
-//        // 加入"群聊"和"聊天室"
-//        if (users.get(Constant.CHAT_ROOM) != null)
-//            contactList.add(0, users.get(Constant.CHAT_ROOM));
-//        if (users.get(Constant.GROUP_USERNAME) != null)
-//            contactList.add(0, users.get(Constant.GROUP_USERNAME));
-//
-//        // 把"申请与通知"添加到首位
-//        if (users.get(Constant.NEW_FRIENDS_USERNAME) != null)
-//            contactList.add(0, users.get(Constant.NEW_FRIENDS_USERNAME));
-
     }
 
-//    void hideSoftKeyboard() {
-//        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-//            if (getActivity().getCurrentFocus() != null)
-//                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-//                        InputMethodManager.HIDE_NOT_ALWAYS);
-//        }
-//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
